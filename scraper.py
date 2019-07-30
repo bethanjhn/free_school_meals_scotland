@@ -16,6 +16,16 @@ import scraperwiki
 #import urlparse
 import lxml.html
 
+#this creates a new function and (re)names whatever parameter is passed to it - i.e. 'next_link' below - as 'url'
+def scrape_page(url):
+    #now 'url' is scraped with the scraperwiki library imported above, and the contents put into a new object, 'html'
+    html = scraperwiki.scrape(url)
+    print html
+    #now we use the lxml.html function imported above to convert 'html' into a new object, 'root'
+    root = lxml.html.fromstring(html)
+    #now we call another function on root, which we write - above
+    scrape_table(root)
+    
 #Create a function called 'scrape_table' which is called in the function 'scrape_page' below
 #The 'scrape_page' function also passed the contents of the page to this function as 'root'
 def scrape_table(root):
@@ -39,15 +49,7 @@ def scrape_table(root):
             scraperwiki.sqlite.save(["ID"], record)
 
 
-#this creates a new function and (re)names whatever parameter is passed to it - i.e. 'next_link' below - as 'url'
-def scrape_page(url):
-    #now 'url' is scraped with the scraperwiki library imported above, and the contents put into a new object, 'html'
-    html = scraperwiki.scrape(url)
-    print html
-    #now we use the lxml.html function imported above to convert 'html' into a new object, 'root'
-    root = lxml.html.fromstring(html)
-    #now we call another function on root, which we write - above
-    scrape_table(root)
+
 
 #START HERE: This is the part of the URL which all our pages share
 base_url = 'http://www.ltscotland.org.uk/scottishschoolsonline/schools/freemealentitlement.asp?iSchoolID='
